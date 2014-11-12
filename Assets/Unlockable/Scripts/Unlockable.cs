@@ -12,7 +12,7 @@ using SimpleJSON;
 /// </summary>
 public static class Unlockable 
 {
-	const string ENPOINT_URL = "http://api.unlockable.com/beta/initiate/";
+	const string ENDPOINT_URL = "http://api.unlockable.com/v1/initiate/";
 
 	public static event Action<string> onResult;					//Returns the result as a JSON String
 	public static event Action<string, string> onError;		//Returns Status code and description
@@ -52,7 +52,7 @@ public static class Unlockable
 
 		byte[] reqData 	= Encoding.UTF8.GetBytes (reqString);
 
-		HttpWebRequest req 	= WebRequest.Create( ENPOINT_URL ) as HttpWebRequest;
+		HttpWebRequest req 	= WebRequest.Create( ENDPOINT_URL ) as HttpWebRequest;
 		req.Credentials 	= CredentialCache.DefaultCredentials;
 		req.Method 			= "POST";
 		req.ContentLength 	= reqData.Length;

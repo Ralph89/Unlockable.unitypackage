@@ -13,7 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 /// </summary>
 public class UnlockableSSL : MonoBehaviour 
 {
-	const string ENPOINT_URL = "http://api.unlockable.com/beta/initiate/";
+	const string ENDPOINT_URL = "https://api.unlockable.com/v1/initiate/";
 
 	public event Action<string> onResult;					//Returns the result as a JSON String
 	public event Action<string> onError;		//Returns Status code and description
@@ -60,7 +60,7 @@ public class UnlockableSSL : MonoBehaviour
 
 	IEnumerator StartRequest( WWWForm form )
 	{
-		WWW req = new WWW (ENPOINT_URL, form);
+		WWW req = new WWW (ENDPOINT_URL, form);
 
 		yield return req;
 
