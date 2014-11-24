@@ -20,3 +20,9 @@ There are two implementations in the package. The `WWW` implementation is prefer
 4. The Unlockable advertising experience will now be displayed. After completion, the Webview may now be closed. Any handling of success or failure will be done Api-to-Api.
 
 NOTE: Unlockable does currently not provide a built-in WebView component. 3rd Party developers must supply their own solution. However, Unlockable has builtin support for [UniWebView](http://uniwebview.onevcat.com/).
+
+iOS
+=======================
+Make sure to import the AdSupport.framework into your XCode project before compiling otherwise you will get linkage errors.
+
+"Undefined symbols for architecture armv7: "_OBJC_CLASS_$_ASIdentifierManager", referenced from:"

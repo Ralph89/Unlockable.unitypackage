@@ -10,7 +10,7 @@ using SimpleJSON;
 /// <summary>
 /// Unlockable.
 /// </summary>
-public static class Unlockable 
+public static class Unlockable
 {
 	const string ENDPOINT_URL = "http://api.unlockable.com/v1/initiate/";
 
@@ -27,7 +27,6 @@ public static class Unlockable
 	/// Requests the inventory.
 	/// </summary>
 	/// <param name="public_key">Public_key.</param>
-	/// <param name="opt_out_tracking">Opt_out_tracking.</param>
 	/// <param name="idfa_ios">Idfa_ios.</param>
 	/// <param name="prize">Prize.</param>
 	/// <param name="source">Source.</param>
@@ -36,11 +35,11 @@ public static class Unlockable
 	/// <param name="timestamp">Timestamp.</param>
 	/// <param name="sig_token">Sig_token.</param>
 	/// <param name="fsession_id">Fsession_id.</param>
-	public static void RequestInventory( string public_key, string opt_out_tracking, string idfa, string prize, string source, string age_13_or_over, 
+	public static void RequestInventory( string public_key, string idfa, string prize, string source, string age_13_or_over,
 	                                    string country_code, string timestamp, string sig_token, string fsession_id, UnlockableUserAgent userAgent )
 	{
 		string reqString = "public_key=" + public_key;
-		reqString += "&opt_out_tracking=" + opt_out_tracking;
+		reqString += "&opt_out_tracking=" + UnlockableAdTracking.AdTrackingEnabled().ToString();
 		reqString += ( userAgent == UnlockableUserAgent.IOS ) ? "&idfa_ios=" : "&idfa_android=" + idfa;
 		reqString += "&prize=" + prize;
 		reqString += "&source=" + source;
@@ -56,7 +55,7 @@ public static class Unlockable
 		req.Credentials 	= CredentialCache.DefaultCredentials;
 		req.Method 			= "POST";
 		req.ContentLength 	= reqData.Length;
-		req.ContentType 	= "application/x-www-form-urlencoded"; 
+		req.ContentType 	= "application/x-www-form-urlencoded";
 		req.UserAgent 		= "HTTP_USER_AGENT";
 
 		using(Stream requestStream = req.GetRequestStream() )
@@ -77,7 +76,7 @@ public static class Unlockable
 		catch(WebException ex)
 		{
 			if(ex.Response == null || ex.Status != WebExceptionStatus.ProtocolError)
-				throw; 
+				throw;
 
 			if( onError != null )
 			{
@@ -86,7 +85,7 @@ public static class Unlockable
 
 				onError( response["status_code"], response["status_msg"] );
 			}
-		}	
+		}
 	}
 
 	/// <summary>
@@ -99,7 +98,7 @@ public static class Unlockable
 	public static string GetHashString( string secret_key, string fsession, string timeStamp )
 	{
 		byte[] hashValue;
-		byte[] message = Encoding.UTF8.GetBytes( secret_key + fsession + timeStamp );   
+		byte[] message = Encoding.UTF8.GetBytes( secret_key + fsession + timeStamp );
 
 		SHA512Managed hashString = new SHA512Managed();
 		using (SHA512 shaM = new SHA512Managed())

@@ -11,7 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 /// <summary>
 /// Unlockable.
 /// </summary>
-public class UnlockableSSL : MonoBehaviour 
+public class UnlockableSSL : MonoBehaviour
 {
 	const string ENDPOINT_URL = "https://api.unlockable.com/v1/initiate/";
 
@@ -28,7 +28,6 @@ public class UnlockableSSL : MonoBehaviour
 	/// Requests the inventory.
 	/// </summary>
 	/// <param name="public_key">Public_key.</param>
-	/// <param name="opt_out_tracking">Opt_out_tracking.</param>
 	/// <param name="idfa_ios">Idfa_ios.</param>
 	/// <param name="prize">Prize.</param>
 	/// <param name="source">Source.</param>
@@ -37,12 +36,12 @@ public class UnlockableSSL : MonoBehaviour
 	/// <param name="timestamp">Timestamp.</param>
 	/// <param name="sig_token">Sig_token.</param>
 	/// <param name="fsession_id">Fsession_id.</param>
-	public void RequestInventory( string public_key, string opt_out_tracking, string idfa, string prize, string source, string age_13_or_over, 
+	public void RequestInventory( string public_key, string idfa, string prize, string source, string age_13_or_over,
 	                             string country_code, string timestamp, string sig_token, string fsession_id, UnlockableUserAgent userAgent )
 	{
 		WWWForm form = new WWWForm ();
 		form.AddField( "public_key", 	public_key);
-		form.AddField( "opt_out_tracking", opt_out_tracking);
+		form.AddField( "opt_out_tracking", UnlockableAdTracking.AdTrackingEnabled().ToString() );
 		form.AddField( (userAgent == UnlockableUserAgent.IOS) ? "idfa_ios" : "idfa_android", idfa);
 		form.AddField( "prize", 		prize);
 		form.AddField( "source", 		source);
@@ -82,7 +81,7 @@ public class UnlockableSSL : MonoBehaviour
 	public string GetHashString( string secret_key, string fsession, string timeStamp )
 	{
 		byte[] hashValue;
-		byte[] message = Encoding.UTF8.GetBytes( secret_key + fsession + timeStamp );   
+		byte[] message = Encoding.UTF8.GetBytes( secret_key + fsession + timeStamp );
 
 		SHA512Managed hashString = new SHA512Managed();
 		using (SHA512 shaM = new SHA512Managed())
