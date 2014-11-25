@@ -52,11 +52,11 @@ public static class Unlockable
 		byte[] reqData 	= Encoding.UTF8.GetBytes (reqString);
 
 		HttpWebRequest req 	= WebRequest.Create( ENDPOINT_URL ) as HttpWebRequest;
-		req.Credentials 	= CredentialCache.DefaultCredentials;
-		req.Method 			= "POST";
+		req.Credentials 		= CredentialCache.DefaultCredentials;
+		req.Method 					= "POST";
 		req.ContentLength 	= reqData.Length;
-		req.ContentType 	= "application/x-www-form-urlencoded";
-		req.UserAgent 		= "HTTP_USER_AGENT";
+		req.ContentType 		= "application/x-www-form-urlencoded";
+		req.UserAgent 			= UnlockableUtils.GetDescription( userAgent );
 
 		using(Stream requestStream = req.GetRequestStream() )
 			requestStream.Write (reqData, 0, reqData.Length);

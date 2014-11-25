@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using System.Text;
 using SimpleJSON;
 
-public class UnlockableSSLDemo : MonoBehaviour 
+public class UnlockableSSLDemo : MonoBehaviour
 {
-	public UniWebView webview;
+	//Uncomment for UniWebView support
+	//public UniWebView webview;
 	public UnlockableSSL unlockable;
 	public string secretKey			= "super_secret_key";
-	public string public_key 		= "gDL5oEyEwjZ5so29Hy1ZZp82ZG51uW43"; 
+	public string public_key 		= "gDL5oEyEwjZ5so29Hy1ZZp82ZG51uW43";
 	public string opt_out_tracking 	= "false";
-	public string idfa	 			= "rAL1wxh00xtmQV41hn0Y91t12v2g7st1"; 
+	public string idfa	 			= "rAL1wxh00xtmQV41hn0Y91t12v2g7st1";
 	public string prize				= "example_prize";
 	public string source 			= "example_source";
 	public string age_13_or_over	= "true";
 	public string country_code		= "US";
-	public string timestamp 		= "2014-09-21T20:50:54.12876Z"; 	
-	public string sig_token 		= "013523fab7950bcf67db762f6a2baef397a62408ca97a995e33aeea71245bc950f22ccc83f55c0cf05c79de3484dd81734c56a5d21adc217a3ae904ff0aca19c"; 
+	public string timestamp 		= "2014-09-21T20:50:54.12876Z";
+	public string sig_token 		= "013523fab7950bcf67db762f6a2baef397a62408ca97a995e33aeea71245bc950f22ccc83f55c0cf05c79de3484dd81734c56a5d21adc217a3ae904ff0aca19c";
 	public string fsession_id 		= "abc123";
 
 	string result = "";
@@ -30,10 +31,11 @@ public class UnlockableSSLDemo : MonoBehaviour
 		unlockable.onResult += OnResult;
 		unlockable.onError += (x) => result += string.Format ("Error: {0}.{1}", x, System.Environment.NewLine);
 
-		if (webview != null) {
+		//Uncomment for UniWebView support
+		/*if (webview != null) {
 				webview.OnLoadComplete 		+= HandleOnLoadComplete;
 				webview.OnReceivedMessage 	+= HandleOnReceivedMessage;
-		}
+		}*/
 
 		//You can get your IDFA from IPhone.advertisingIdentifier; Empty when you run it in the editor
 		//NOTE: Android user must use google play to get their IDFA
@@ -83,11 +85,19 @@ public class UnlockableSSLDemo : MonoBehaviour
 					Debug.LogError( "Hash does not match" );
 
 				//Request Inventory
-				unlockable.RequestInventory( public_key, opt_out_tracking, idfa, prize, source, 
-				                            age_13_or_over, country_code, timestamp, hashString, fsession_id );
+				unlockable.RequestInventory(public_key,
+																		idfa,
+																		prize,
+																		 source,
+				                            age_13_or_over,
+																		country_code,
+																		timestamp,
+																		hashString,
+																		fsession_id,
+																		UnlockableUserAgent.ANDROID );
 			}
 
-			//If we've received a valid respons we will enable 
+			//If we've received a valid respons we will enable
 			if( receivedValidResponse && GUILayout.Button( "Launch Webview" ) )
 				LaunchWebView();
 
@@ -101,7 +111,8 @@ public class UnlockableSSLDemo : MonoBehaviour
 
 	void LaunchWebView()
 	{
-		webview.Load( unlockableInventoryURL );
+		//Uncomment for UniWebView support
+		//webview.Load( unlockableInventoryURL );
 	}
 
 	/// <summary>
@@ -118,6 +129,8 @@ public class UnlockableSSLDemo : MonoBehaviour
 		receivedValidResponse = true;
 	}
 
+	//Uncomment for UniWebView support
+	/*
 	//Succesfully loaded the url, we can now show the webview
 	void HandleOnLoadComplete (UniWebView webView, bool success, string errorMessage)
 	{
@@ -144,5 +157,5 @@ public class UnlockableSSLDemo : MonoBehaviour
 			webview.Hide ();
 			showingWebView = false;
 		}
-	}
+	}*/
 }
