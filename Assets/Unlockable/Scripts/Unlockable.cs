@@ -40,7 +40,7 @@ public static class Unlockable
 	{
 		string reqString = "public_key=" + public_key;
 		reqString += "&opt_out_tracking=" + UnlockableAdTracking.AdTrackingEnabled().ToString();
-		reqString += ( userAgent == UnlockableUserAgent.IOS ) ? "&idfa_ios=" : "&idfa_android=" + idfa;
+		reqString += ( userAgent == UnlockableUserAgent.IOS ) ? "&idfa_ios=" + idfa : "&idfa_android=" + idfa;
 		reqString += "&prize=" + prize;
 		reqString += "&source=" + source;
 		reqString += "&age_13_or_over=" + age_13_or_over;
