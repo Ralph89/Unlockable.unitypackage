@@ -14,7 +14,7 @@ public static class Unlockable
 {
 	const string ENDPOINT_URL = "http://api.unlockable.com/v1/initiate/";
 
-	public static event Action<string> onResult;					//Returns the result as a JSON String
+	public static event Action<string> onResult;			//Returns the result as a JSON String
 	public static event Action<string, string> onError;		//Returns Status code and description
 
 	public static void Init()
@@ -38,6 +38,17 @@ public static class Unlockable
 	public static void RequestInventory( string public_key, string idfa, string prize, string source, string age_13_or_over,
 	                                    string country_code, string timestamp, string sig_token, string fsession_id, UnlockableUserAgent userAgent )
 	{
+		//Check for an internet connection
+		if( !UnlockableUtils.CheckForInternetConnection() )
+		{
+			if( onError != null )
+			{
+				onError( "0", "No active internet connection available." );
+			}
+
+			return;
+		}
+
 		string reqString = "public_key=" + public_key;
 		reqString += "&opt_out_tracking=" + UnlockableAdTracking.AdTrackingEnabled().ToString();
 		reqString += ( userAgent == UnlockableUserAgent.IOS ) ? "&idfa_ios=" + idfa : "&idfa_android=" + idfa;

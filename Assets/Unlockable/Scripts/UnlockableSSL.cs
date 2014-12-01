@@ -15,8 +15,8 @@ public class UnlockableSSL : MonoBehaviour
 {
 	const string ENDPOINT_URL = "https://api.unlockable.com/v1/initiate/";
 
-	public event Action<string> onResult;					//Returns the result as a JSON String
-	public event Action<string> onError;		//Returns Status code and description
+	public event Action<string> onResult;			//Returns the result as a JSON String
+	public event Action<string> onError;				//Returns Status code and description
 
 	void Start()
 	{
@@ -39,6 +39,18 @@ public class UnlockableSSL : MonoBehaviour
 	public void RequestInventory( string public_key, string idfa, string prize, string source, string age_13_or_over,
 	                             string country_code, string timestamp, string sig_token, string fsession_id, UnlockableUserAgent userAgent )
 	{
+		//Check for an internet connection
+		if( !UnlockableUtils.CheckForInternetConnection() )
+		{
+			if( onError != null )
+			{
+				onError( "StatusCode: 0, Message: No active internet connection available." );
+			}
+			
+			return;
+		}
+
+
 		WWWForm form = new WWWForm ();
 		form.AddField( "public_key", 	public_key);
 		form.AddField( "opt_out_tracking", UnlockableAdTracking.AdTrackingEnabled().ToString() );
@@ -69,8 +81,6 @@ public class UnlockableSSL : MonoBehaviour
 			onResult( req.text );
 	}
 
-
-
 	/// <summary>
 	/// Get's the hash string.
 	/// </summary>
@@ -82,18 +92,18 @@ public class UnlockableSSL : MonoBehaviour
 	{
 		byte[] hashValue;
 		byte[] message = Encoding.UTF8.GetBytes( secret_key + fsession + timeStamp );
-
+		
 		SHA512Managed hashString = new SHA512Managed();
 		using (SHA512 shaM = new SHA512Managed())
 			hashValue = shaM.ComputeHash(message);
-
+		
 		string hex = "";
 		foreach (byte x in hashValue)
 			hex += String.Format("{0:x2}", x);
-
+		
 		return hex;
 	}
-
+	
 	/// <summary>
 	/// Checks the hash.
 	/// </summary>

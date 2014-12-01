@@ -6,35 +6,19 @@ import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.unity3d.player.UnityPlayerActivity;
 
 import java.io.IOException;
 
-public class UnlockableAdTracking extends UnityPlayerActivity
+public class UnlockableAdTracking
 {
-	private static UnlockableAdTracking instance;
-	public static UnlockableAdTracking instance() 
-    {
-        if( instance == null) {
-            instance = new UnlockableAdTracking();
-        }
-        
-        return instance;
-    }
 
-	private Context context;
-	
-    public UnlockableAdTracking() 
-	{
-        instance = this;
-    }
-    
-    public void setContext( Context ctxt )
+    private static Context context;
+    public static void setContext( Context ctxt )
     {
     	context = ctxt;
     }
 	
-	public Boolean adTrackingEnabled() throws IllegalStateException, GooglePlayServicesRepairableException
+	public static Boolean adTrackingEnabled() throws IllegalStateException, GooglePlayServicesRepairableException
 	{
 		Info adInfo = null;
 		try 

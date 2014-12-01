@@ -25,4 +25,23 @@ public class UnlockableUtils
 
 		return "USERAGENT-UNDEFINED";
 	}
+
+	/// <summary>
+	/// Checks for internet connection.
+	/// Courtesy of http://stackoverflow.com/questions/2031824/what-is-the-best-way-to-check-for-internet-connectivity-using-net
+	/// </summary>
+	/// <returns><c>true</c>, if for internet connection was checked, <c>false</c> otherwise.</returns>
+	public static bool CheckForInternetConnection()
+	{
+		try
+		{
+			using (var client = new System.Net.WebClient())
+				using (var stream = client.OpenRead("http://www.google.com"))
+					return true;
+		}
+		catch
+		{
+			return false;
+		}
+	}
 }
